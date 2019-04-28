@@ -118,7 +118,7 @@ def printv(string, verbose):
 
 
 def create_fn_ohlc(fn):
-    """Repackage indicator functions to only take ohl as args."""
+    """Repackage indicator functions to only take hlc as args."""
     def f1(period):
         def f2(high, low, close):
             return fn(high, low, close, period)
