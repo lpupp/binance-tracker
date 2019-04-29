@@ -6,7 +6,7 @@ TODO LR:
 [ ] First all data should be loaded and saved
 
 cmd:
-cd crypyto/
+cd binance-tracker/
 python src/main.py --client_path assets/client.txt
 """
 import sys
