@@ -1,0 +1,10 @@
+# List all indicators from ta (https://github.com/bukosabino/ta) you wish to
+# import here.
+# function_name: [periods]
+
+rsi: [14]
+ema_indicator:  [7, 25, 99]
+stoch: [14]
+stoch_signal: [14]
+bollinger_lband: [25]
+bollinger_hband: [25]
