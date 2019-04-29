@@ -92,7 +92,7 @@ set in the url). Reference the notification pop-up for the correct frequency.
 
 ### 5. Start tracking crypto pairs
 
-To track the 1, 3, and 5 minute candles of the ETC-BTC, XRP-BTC, and ADA_BTC crypto pairs:
+To track the 1, 3, and 5 minute candles of the ETC-BTC, XRP-BTC, and ADA-BTC crypto pairs:
 ```bash
 python src/main.py --trading_currencies ETH XRP ADA \
                    --trading_freqs 1T 3T 5T --base_currency BTC \
