@@ -9,11 +9,17 @@ TODO LR:
 """
 import os
 import time
+import yaml
 
 import pandas as pd
 import numpy as np
 
 from binance.client import Client
+
+
+def get_config(config):
+    with open(config, 'r') as stream:
+        return yaml.load(stream)
 
 
 def get_holding(client, symbol):
@@ -117,7 +123,16 @@ def printv(string, verbose):
         print(string)
 
 
-def create_fn_ohlc(fn):
+def create_fn_hl(fn):
+    """Repackage indicator functions to only take hl as args."""
+    def f1(period):
+        def f2(high, low, close):
+            return fn(high, low, period)
+        return f2
+    return f1
+
+
+def create_fn_hlc(fn):
     """Repackage indicator functions to only take ohl as args."""
     def f1(period):
         def f2(high, low, close):
