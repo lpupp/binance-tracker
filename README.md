@@ -2,7 +2,7 @@
 
 A tool to help (partially) automate trading on Binance. Interfaces with the
 Binance API. Tracks list of cryptocurrencies and notifies you when self-defined
-conditions are met. Additional tool to implement stop-loss.
+conditions are met. Additional tool to implement [stop-loss](## Stop loss function "Goto Stop loss function").
 
 In its current state, this script is ideal for when you notice a trend
 developing but do not continuously want to monitor it. Program the condition
