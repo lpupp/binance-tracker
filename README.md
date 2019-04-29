@@ -4,19 +4,24 @@ A tool to help (partially) automate trading on Binance. Interfaces with the
 Binance API. Tracks list of cryptocurrencies and notifies you when self-defined
 conditions are met. Additional tool to implement stop-loss.
 
-__NOTE__: This implementation is untested. Use at your own risk. Make sure you
-educate yourself on the risks of trading before trading with real money.
-
 In its current state, this script is ideal for when you notice a trend
 developing but do not continuously want to monitor it. Program the condition
 and a notification will alert you and a window will open in your browser when
 the condition is triggered.
 
+## Warnings, notes, and cautions
+
+__NOTE__: This implementation is untested. Use at your own risk. Make sure you
+educate yourself on the risks of trading before trading with real money.
+
+__Careful__: if you are going to be making changes to this script and tracking it
+on GitHub, make sure not to upload the `client.txt` with your API key in it.
+
 ## Dependencies
 * [Python 3.5+](https://www.continuum.io/downloads)
 * [python-binance](https://github.com/sammchardy/python-binance)
-* [ta](https://github.com/bukosabino/ta)
 * [pandas](https://pandas.pydata.org)
+* [ta](https://github.com/bukosabino/ta)
 
 ## Usage
 
@@ -27,28 +32,25 @@ $ cd binance-tracker/
 ```
 
 ### 2. Register and connect to Binance
-    1. Register on [binance.com](https://www.binance.com/)
-    2. Create an [API key](https://support.binance.com/hc/en-us/articles/360002502072-How-to-create-API)
-    3. Put key in `assets>>client.txt` ([here](https://github.com/lpupp/binance-tracker/blob/master/assets/client.txt)). The key should be entered one 2 lines in txt file.
-
-__Careful__: if you are going to be making changes to this script and tracking it
-on GitHub, make sure not to upload the `client.txt` with your API key in it.
+1. Register on [binance.com](https://www.binance.com/)
+2. Create an [API key](https://support.binance.com/hc/en-us/articles/360002502072-How-to-create-API)
+3. Put key in `assets>>client.txt` ([here](https://github.com/lpupp/binance-tracker/blob/master/assets/client.txt)). The key should be entered one 2 lines in txt file.
 
 ### 3. Select indicators
 
 The current implementation imports all indicators from [ta](https://github.com/bukosabino/ta).
 
-If you to wish use your own, implement them in the `Indicator` class ([here](https://github.com/lpupp/binance-tracker/blob/master/src/indicator.py)).
+If you to wish use your own, implement it in the `Indicator` class ([here](https://github.com/lpupp/binance-tracker/blob/master/src/indicator.py)).
 
-For example, calculate the width of bollinger bands
+For example, calculate the width of bollinger bands:
 ```python
 def bb_width(self, df, full_df=False):
     """Calculate the width of bollinger bands."""
     df = df.copy()
 
-    bb_u = [e for e in df.columns if 'bb_u' in e]
-    bb_l = [e for e in df.columns if 'bb_l' in e]
-    df['bb_width'] = df[bb_u[0]] - df[bb_l[0]]
+    bb_u = [e for e in df.columns if 'bollinger_hband' in e]
+    bb_l = [e for e in df.columns if 'bollinger_lband' in e]
+    df['bollinger_width'] = df[bb_u[0]] - df[bb_l[0]]
 
     if full_df:
         return df
@@ -70,7 +72,7 @@ def __call__(self, df, full_df=False, d1=False, d2=False, smooth_periods=None):
 
 ### 4. Create buy or sell trigger conditions
 
-Implement all buy or sell signals in the `signals.py` [script](https://github.com/lpupp/binance-tracker/blob/master/src/signals.py)
+Implement all buy and sell signals in the `signals.py` script ([here](https://github.com/lpupp/binance-tracker/blob/master/src/signals.py))
 and import to the `TradingBot` class ([here](https://github.com/lpupp/binance-tracker/blob/master/src/tradingbot.py)).
 
 Currently, only an example condition is implemented. Furthermore, the script
@@ -86,7 +88,7 @@ def __call__(self, crypto_klines, symbol, verbose):
 That is, it will notify you and open a browser window with the exchange of the
 crypto pair that triggered the condition. Note, however, that the candlestick
 frequency loaded in the browser may be incorrect (as this can currently not be
-set in the url). Reference the notification for the correct frequency.
+set in the url). Reference the notification pop-up for the correct frequency.
 
 ### 5. Start tracking crypto pairs
 ```bash
@@ -98,8 +100,8 @@ python src/main.py --trading_currencies ETH XRP ADA \
 `--trading_freqs` can be one of any [pandas frequencies](https://pandas.pydata.org/pandas-docs/stable/user_guide/timeseries.html#timeseries-offset-aliases)
 
 ## Stop loss function
-Additionally, if you are currently in a trade, Binance does not allow you to set
-a stop-loss and a take-profit simultaneously. The [stop loss script](https://github.com/lpupp/binance-tracker/blob/master/src/stop_loss.py)
+If you are in a trade, Binance does not allow you to set
+a stop-loss and a take-profit simultaneously. The [stop-loss script](https://github.com/lpupp/binance-tracker/blob/master/src/stop_loss.py)
 will monitor the price for you and issue a sell order when your stop-loss
 condition is triggered.
 

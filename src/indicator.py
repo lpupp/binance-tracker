@@ -258,9 +258,9 @@ class Indicator():
         """
         df = df.copy()
 
-        bb_u = [e for e in df.columns if 'bb_u' in e]
-        bb_l = [e for e in df.columns if 'bb_l' in e]
-        df['bb_width'] = df[bb_u[0]] - df[bb_l[0]]
+        bb_u = [e for e in df.columns if 'bollinger_hband' in e]
+        bb_l = [e for e in df.columns if 'bollinger_lband' in e]
+        df['bollinger_width'] = df[bb_u[0]] - df[bb_l[0]]
 
         if full_df:
             return df
