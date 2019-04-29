@@ -1,13 +1,5 @@
 """TODO.
 
-TODO MASTER (lpupp):
-[ ] How to calculate indicators dynamically with freq != 1T
-[ ] How to update df for freq != 1T
-[ ] How to notify when signal is triggered
-[ ] How to trigger signal
-[ ] How to handel data?
-[ ] More currency pairs (easy)
-
 TODO LR:
 [ ] Docstrings
 [ ] Remove main.py from github history
