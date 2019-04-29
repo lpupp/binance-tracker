@@ -8,7 +8,7 @@ monitors the prices in the background and terminates when take-profit or
 stop-loss is fulfilled.
 
 cmd:
-cd Documents/GitHub/crypyto
+cd binance-tracker/
 python src/stop_loss.py --client_path assets/client.txt --symbol ADA_BTC --p_stop 0.00031 --p_limit 0.0003 --balance 100
 """
 
