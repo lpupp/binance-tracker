@@ -34,7 +34,7 @@ $ cd binance-tracker/
 ### 2. Register and connect to Binance
 1. Register on [binance.com](https://www.binance.com/)
 2. Create an [API key](https://support.binance.com/hc/en-us/articles/360002502072-How-to-create-API)
-3. Put key in `assets>>client.txt` ([here](https://github.com/lpupp/binance-tracker/blob/master/assets/client.txt)). The key should be entered one 2 lines in txt file.
+3. Put key in `assets>>client.txt` ([here](https://github.com/lpupp/binance-tracker/blob/master/assets/client.txt)). The key should be entered on 2 lines in txt file.
 
 ### 3. Select indicators
 
