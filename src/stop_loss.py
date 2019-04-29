@@ -9,7 +9,7 @@ stop-loss is fulfilled.
 
 cmd:
 cd Documents/GitHub/crypyto
-python src/main.py --client_path assets/client.txt --symbol ADA_BTC --p_stop 0.00031 --p_limit 0.0003 --balance 100
+python src/stop_loss.py --client_path assets/client.txt --symbol ADA_BTC --p_stop 0.00031 --p_limit 0.0003 --balance 100
 """
 
 import argparse
