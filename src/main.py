@@ -1,12 +1,4 @@
-"""TODO.
-
-TODO MASTER (lpupp):
-[ ] How to calculate indicators dynamically with freq != 1T
-[ ] How to update df for freq != 1T
-[ ] How to notify when signal is triggered
-[ ] How to trigger signal
-[ ] How to handel data?
-[ ] More currency pairs (easy)
+"""Main.
 
 TODO LR:
 [ ] Docstrings
@@ -14,7 +6,7 @@ TODO LR:
 [ ] First all data should be loaded and saved
 
 cmd:
-cd Documents/GitHub/crypyto
+cd crypyto/
 python src/main.py --client_path assets/client.txt
 """
 import sys
@@ -24,6 +16,7 @@ import argparse
 
 from binance.client import Client
 
+from utils import get_config
 from klinetracker import KLineTracker
 from cryptoklines import CryptoKlines
 from indicator import Indicator
@@ -31,29 +24,31 @@ from tradingbot import TradingBot
 
 parser = argparse.ArgumentParser(description='Binance Tracker')
 
-parser.add_argument('--base_currency', type=str, default=None, help='BTC|USDT.')
+parser.add_argument('--trading_currencies', nargs='+', default=['ETH', 'XRP'], help='List of currencies. Need to be traded with base_currency.')
+parser.add_argument('--trading_freqs', nargs='+', default=['1T', '3T', '5T', '15T', '30T', '1H', '2H', '4H'], help='List of frequencies to track.')
+parser.add_argument('--base_currency', type=str, default='BTC', help='BTC|USDT.')
 parser.add_argument('--load_path', type=str, default=None, help='Path to csv data file(s).')
 parser.add_argument('--client_path', type=str, default=None, help='Path to client key txt.')
 
+parser.add_argument('--config', type=str, default='configs/indicators.yaml', help='Path to the config file.')
 
 def main(args, client):
-    """TODO."""
+    """Track cryptocurrency pairs."""
     all_symbols = [e['symbol'] for e in client.get_all_tickers()]
     [e for e in all_symbols if e[-3:] == 'BTC']
 
-    symbols = ['ADA', 'BAT', 'BCHABC']
+    symbols = [e.upper() for e in args.trading_currencies]
     symbols = ['{}_{}'.format(sym, args.base_currency) for sym in symbols]
     symbols = [sym for sym in symbols if sym.replace('_', '') in all_symbols]
     print('Tracking {}'.format(symbols))
 
-    freqs = ['1T', '3T', '5T', '15T', '30T', '1H', '2H', '4H']
+    freqs = args.trading_freqs
     print('Initializing trading bot')
     bot = TradingBot(symbols, freqs, client, t_sleep=15)
 
     print('Initializing indicator')
-    indicator = Indicator(ema=[7, 25, 99],
-                          l_bb=[25], u_bb=[25],
-                          percent_k=[14], percent_d=[14])
+    config = get_config(args.config)
+    indicator = Indicator(config)
 
     CK, KT = {}, {}
     for sym in symbols:
